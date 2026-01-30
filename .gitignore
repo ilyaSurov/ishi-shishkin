@@ -1,0 +1,16 @@
+# Зависимости
+node_modules
+
+# Сборка (мы используем docs/ как outDir и коммитим её для GitHub Pages)
+dist
+
+# Локальные env
+.env
+.env.*
+!.env.example
+
+# Редакторы и ОС
+.DS_Store
+*.log
+.idea
+.vscode

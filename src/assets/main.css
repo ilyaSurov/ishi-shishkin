@@ -1,0 +1,93 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #6366f1;
+  --accent: #ec4899;
+  --glass: rgba(15, 23, 42, 0.8);
+  --glass-border: rgba(148, 163, 184, 0.12);
+  --gradient: linear-gradient(135deg, #1e1b4b 0%, #3b82f6 100%);
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  overflow: hidden;
+  scroll-behavior: auto;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #0f172a;
+  color: #e2e8f0;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Fluid typography */
+h1 { font-size: clamp(1.5rem, 5vw, 3.5rem); }
+h2 { font-size: clamp(1.25rem, 4vw, 2.5rem); }
+h3 { font-size: clamp(1rem, 3vw, 1.5rem); }
+p, span { font-size: clamp(0.875rem, 2vw, 1.125rem); }
+
+/* Glassmorphism */
+.glass {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+}
+
+.glass-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+/* Horizontal scroll container */
+.horizontal-scroll-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: max-content;
+  height: 100vh;
+  will-change: transform;
+}
+
+.section-panel {
+  flex-shrink: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  /* Ширина задаётся в JS (clientWidth), чтобы контент не сдвигался из-за scrollbar */
+  padding-bottom: 72px; /* место под нижнюю навигацию */
+  box-sizing: border-box;
+}
+@media (max-width: 640px) {
+  .section-panel {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 64px;
+  }
+}
+
+/* Custom cursor (optional enhancement) */
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Smooth focus for a11y */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
