@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { loadProjectConfigs } from '../data/projects/loadConfigs'
+import { preloadProjectCovers } from '../data/projects'
 
 const overrides = ref({})
 const ready = ref(false)
@@ -10,6 +11,7 @@ export function initProjectConfigs() {
     initPromise = loadProjectConfigs().then((configs) => {
       overrides.value = configs
       ready.value = true
+      preloadProjectCovers(configs)
     })
   }
   return initPromise

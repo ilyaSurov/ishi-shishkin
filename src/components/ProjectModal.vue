@@ -30,11 +30,13 @@ function onKeydown(e) {
 onMounted(() => {
   document.addEventListener('keydown', onKeydown)
   document.body.style.overflow = 'hidden'
+  document.body.dataset.modalOpen = 'true'
 })
 
 onUnmounted(() => {
   document.removeEventListener('keydown', onKeydown)
   document.body.style.overflow = ''
+  delete document.body.dataset.modalOpen
 })
 </script>
 
@@ -44,6 +46,7 @@ onUnmounted(() => {
       <div
         v-if="project"
         class="fixed inset-0 z-[100] flex items-end justify-center p-0 sm:items-center sm:p-4"
+        data-no-panel-swipe
         role="dialog"
         aria-modal="true"
         :aria-label="`${t('projectModal.ariaLabel')}: ${project.title}`"

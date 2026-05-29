@@ -21,3 +21,13 @@ export function getProjectById(id, locale, overrides = {}) {
   const merged = mergeProjectMeta(project, overrides[project.slug])
   return localizeProject(merged, locale)
 }
+
+/** Прогрев обложек — Safari не подгружает lazy внутри GSAP transform. */
+export function preloadProjectCovers(configs, locale = 'ru') {
+  getProjects(locale, configs).forEach((project) => {
+    if (!project.coverUrl) return
+    const img = new Image()
+    img.decoding = 'async'
+    img.src = project.coverUrl
+  })
+}

@@ -8,9 +8,11 @@ import SkillsSection from './components/SkillsSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import { useHorizontalScroll } from './composables/useHorizontalScroll'
+import { useSwipeNavigation } from './composables/useSwipeNavigation'
 
 const PANEL_COUNT = 5
 const { wrapper, scrollContent } = useHorizontalScroll(PANEL_COUNT)
+useSwipeNavigation()
 </script>
 
 <template>

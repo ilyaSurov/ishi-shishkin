@@ -253,6 +253,12 @@ p, span { font-size: clamp(0.875rem, 2vw, 1.125rem); }
 }
 
 @media (max-width: 767px) {
+  :root,
+  [data-theme='dark'],
+  [data-theme='light'] {
+    --nav-height: 9.5rem;
+  }
+
   .section-panel {
     padding-left: 0;
     padding-right: 0;

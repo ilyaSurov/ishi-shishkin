@@ -29,7 +29,7 @@ function next() {
 </script>
 
 <template>
-  <div v-if="urls.length" class="project-gallery">
+  <div v-if="urls.length" class="project-gallery" data-no-panel-swipe>
     <div class="relative flex aspect-video items-center justify-center overflow-hidden rounded-xl border border-theme-subtle bg-theme-tag/30">
       <img
         :src="urls[activeIndex]"

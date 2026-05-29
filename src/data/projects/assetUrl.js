@@ -1,9 +1,9 @@
 /** Абсолютный URL ассета проекта относительно BASE_URL (GitHub Pages / локально). */
 export function projectAsset(slug, filename) {
   if (!filename) return ''
-  const base = import.meta.env.BASE_URL || '/'
+  const base = import.meta.env.BASE_URL || './'
   const normalizedBase = base.endsWith('/') ? base : `${base}/`
-  return `${normalizedBase}projects/${slug}/${filename}`.replace(/([^:]\/)\/+/g, '$1')
+  return new URL(`${normalizedBase}projects/${slug}/${filename}`, window.location.href).href
 }
 
 export function projectGalleryUrls(slug, gallery, cover) {

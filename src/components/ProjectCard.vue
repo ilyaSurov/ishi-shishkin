@@ -77,6 +77,13 @@ watch(
   },
 )
 
+watch(
+  () => props.project.coverUrl,
+  () => {
+    coverError.value = false
+  },
+)
+
 onMounted(() => {
   window.addEventListener('mousemove', onMove)
   card.value?.addEventListener('mouseleave', onLeave)
@@ -113,10 +120,12 @@ onUnmounted(() => {
     >
       <img
         v-if="project.coverUrl && !coverError"
+        :key="project.coverUrl"
         :src="project.coverUrl"
         :alt="project.title"
         class="max-h-full max-w-full object-contain p-2 transition duration-500 group-hover:scale-[1.02]"
-        loading="lazy"
+        decoding="async"
+        fetchpriority="high"
         @error="coverError = true"
       />
       <div

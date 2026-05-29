@@ -2,7 +2,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import gsap from 'gsap'
 import { useLocale } from '../composables/useLocale'
-import { getViewportHeight } from '../composables/useViewport'
+import { goToPanel } from '../composables/usePanelNavigation'
 import MagneticButton from './MagneticButton.vue'
 
 const { profile, t, locale } = useLocale()
@@ -15,9 +15,7 @@ function onAvatarError() {
 }
 
 function scrollToContact() {
-  const contactPanelIndex = 4
-  const scrollTop = contactPanelIndex * getViewportHeight()
-  window.scrollTo({ top: scrollTop, behavior: 'smooth' })
+  goToPanel(4, { smooth: true })
 }
 
 const currentText = ref('')

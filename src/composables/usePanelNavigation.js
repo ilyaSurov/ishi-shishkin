@@ -20,7 +20,7 @@ function syncCurrentFromProgress(progress) {
   currentPanel.value = Math.round(progress * (total - 1))
 }
 
-export function goToPanel(index) {
+export function goToPanel(index, options = {}) {
   const st = scrollTrigger.value
   const total = panelCount.value
   if (!st || total <= 1) return
@@ -32,11 +32,24 @@ export function goToPanel(index) {
   const progress = target / (total - 1)
   const y = st.start + progress * (st.end - st.start)
 
-  window.scrollTo({ top: y, behavior: 'auto' })
+  window.scrollTo({ top: y, behavior: options.smooth ? 'smooth' : 'auto' })
 
-  requestAnimationFrame(() => {
+  const unlock = () => {
     isNavigating = false
-  })
+  }
+  if (options.smooth) {
+    setTimeout(unlock, 450)
+  } else {
+    requestAnimationFrame(unlock)
+  }
+}
+
+export function goToNextPanel(options = {}) {
+  goToPanel(currentPanel.value + 1, options)
+}
+
+export function goToPrevPanel(options = {}) {
+  goToPanel(currentPanel.value - 1, options)
 }
 
 export function onPanelScrollUpdate(progress) {
@@ -48,5 +61,7 @@ export function usePanelNavigation() {
   return {
     currentPanel: readonly(currentPanel),
     goToPanel,
+    goToNextPanel,
+    goToPrevPanel,
   }
 }

@@ -10,6 +10,14 @@ export function getViewportHeight() {
 export function updateViewportCssVars() {
   const vh = getViewportHeight() * 0.01
   document.documentElement.style.setProperty('--vh', `${vh}px`)
+
+  const vv = window.visualViewport
+  if (vv) {
+    const chromeBottom = Math.max(0, Math.round(window.innerHeight - vv.height - vv.offsetTop))
+    document.documentElement.style.setProperty('--browser-chrome-bottom', `${chromeBottom}px`)
+  } else {
+    document.documentElement.style.setProperty('--browser-chrome-bottom', '0px')
+  }
 }
 
 export function subscribeViewportChange(callback, options = {}) {
@@ -44,4 +52,8 @@ export function subscribeViewportChange(callback, options = {}) {
 
 export function isCoarsePointer() {
   return window.matchMedia('(pointer: coarse)').matches
+}
+
+export function isMobileLayout() {
+  return window.matchMedia('(max-width: 767px)').matches
 }

@@ -9,8 +9,8 @@ const { t } = useLocale()
 <template>
   <button
     type="button"
-    class="theme-toggle glass fixed z-50 flex h-9 w-9 items-center justify-center rounded-xl text-theme transition hover:border-primary/40 hover:shadow-lg hover:shadow-primary/15 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[var(--color-ring-offset)] sm:h-11 sm:w-11"
-    style="top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left));"
+    class="theme-toggle glass fixed z-50 flex h-11 w-11 items-center justify-center rounded-xl text-theme transition hover:border-primary/40 hover:shadow-lg hover:shadow-primary/15 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-[var(--color-ring-offset)] sm:h-12 sm:w-12"
+    style="top: max(1rem, env(safe-area-inset-top)); left: max(1rem, env(safe-area-inset-left)); touch-action: manipulation;"
     :aria-label="theme === 'dark' ? t('theme.toLight') : t('theme.toDark')"
     @click="toggleTheme"
   >
@@ -18,7 +18,7 @@ const { t } = useLocale()
       <svg
         v-if="theme === 'dark'"
         key="sun"
-        class="h-5 w-5 text-primary"
+        class="h-6 w-6 text-primary"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -34,7 +34,7 @@ const { t } = useLocale()
       <svg
         v-else
         key="moon"
-        class="h-5 w-5 text-primary"
+        class="h-6 w-6 text-primary"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

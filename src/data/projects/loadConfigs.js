@@ -21,8 +21,8 @@ export async function loadProjectConfigs() {
   const entries = await Promise.all(
     PROJECT_SLUGS.map(async (slug) => {
       try {
-        const url = `${normalizedBase}projects/${slug}/project.json?t=${Date.now()}`
-        const response = await fetch(url, { cache: 'no-store' })
+        const url = new URL(`${normalizedBase}projects/${slug}/project.json`, window.location.href).href
+        const response = await fetch(url)
         if (!response.ok) return [slug, null]
         const json = await response.json()
         return [slug, pickMeta(json)]
