@@ -1,0 +1,11 @@
+{
+  "id": "skylux",
+  "github": "https://github.com/ilyaSurov/e-shop-Skylux",
+  "live": "",
+  "stage": "mvp",
+  "tech": ["Vue 3", "Go", "chi", "PostgreSQL", "Tauri 2", "Redis", "TypeScript"],
+  "cover": "cover.svg",
+  "gallery": [],
+  "video": null,
+  "previewColor": "linear-gradient(135deg, #0ea5e9 0%, #6366f1 50%, #a855f7 100%)"
+}

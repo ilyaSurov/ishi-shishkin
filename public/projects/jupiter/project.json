@@ -1,0 +1,11 @@
+{
+  "id": "jupiter",
+  "github": "https://github.com/ilyaSurov/e-shop-Jupiter",
+  "live": "",
+  "stage": "mvp",
+  "tech": ["Nuxt 3", "Vue 3", "NestJS", "Prisma", "PostgreSQL", "Docker", "TypeScript"],
+  "cover": "cover.svg",
+  "gallery": ["gallery/1.jpg", "gallery/2.jpg", "gallery/3.jpg", "gallery/4.jpg", "gallery/5.jpg", "gallery/6.jpg", "gallery/7.jpg", "gallery/8.jpg"],
+  "video": "demo.mp4",
+  "previewColor": "linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #f59e0b 100%)"
+}

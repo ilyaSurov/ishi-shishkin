@@ -1,5 +1,7 @@
 <script setup>
 import AppNav from './components/AppNav.vue'
+import ThemeToggle from './components/ThemeToggle.vue'
+import LanguageToggle from './components/LanguageToggle.vue'
 import HeroSection from './components/HeroSection.vue'
 import ProjectsSection from './components/ProjectsSection.vue'
 import SkillsSection from './components/SkillsSection.vue'
@@ -12,7 +14,7 @@ const { wrapper, scrollContent } = useHorizontalScroll(PANEL_COUNT)
 </script>
 
 <template>
-  <div class="overflow-x-hidden bg-slate-900">
+  <div class="overflow-x-hidden bg-theme">
     <!-- Driver: vertical scroll area (height set by useHorizontalScroll) -->
     <div ref="scrollContent" class="w-full" aria-hidden="true" />
 
@@ -37,6 +39,8 @@ const { wrapper, scrollContent } = useHorizontalScroll(PANEL_COUNT)
       </div>
     </div>
 
+    <ThemeToggle />
+    <LanguageToggle />
     <AppNav :total="PANEL_COUNT" />
   </div>
 </template>
@@ -49,7 +53,8 @@ const { wrapper, scrollContent } = useHorizontalScroll(PANEL_COUNT)
   right: 0;
   bottom: 0;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
+  height: calc(var(--vh, 1vh) * 100);
   overflow: hidden;
   pointer-events: none;
 }

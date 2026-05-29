@@ -1,6 +1,10 @@
 <script setup>
 import { ref, onMounted, onUnmounted, watch } from 'vue'
 import gsap from 'gsap'
+import { useLocale } from '../composables/useLocale'
+import ProjectStageBadge from './ProjectStageBadge.vue'
+
+const { t } = useLocale()
 
 const props = defineProps({
   project: { type: Object, required: true },
@@ -8,6 +12,8 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['open'])
+
+const coverError = ref(false)
 
 function openModal() {
   emit('open')
@@ -64,6 +70,13 @@ watch([x, y, tiltX, tiltY], () => {
   })
 })
 
+watch(
+  () => props.project.id,
+  () => {
+    coverError.value = false
+  },
+)
+
 onMounted(() => {
   window.addEventListener('mousemove', onMove)
   card.value?.addEventListener('mouseleave', onLeave)
@@ -84,41 +97,76 @@ onUnmounted(() => {
 <template>
   <div
     ref="card"
-    class="project-card glass-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl transition-shadow hover:shadow-xl hover:shadow-primary/10"
+    class="project-card glass-card group relative flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-theme-subtle transition-shadow hover:border-primary/20 hover:shadow-xl hover:shadow-[var(--color-shadow)]"
     style="will-change: transform"
     role="button"
     tabindex="0"
-    aria-label="Подробнее о проекте: {{ project.title }}"
+    :aria-label="`${t('projectCard.ariaLabel')}: ${project.title}`"
     @mouseleave="onLeave"
     @click="openModal"
     @keydown.enter="openModal"
     @keydown.space.prevent="openModal"
   >
-    <!-- Плейсхолдер вместо скриншота -->
     <div
-      class="h-36 w-full shrink-0 rounded-t-2xl transition-all duration-300 group-hover:opacity-90 sm:h-40"
-      :style="{ background: project.previewColor || 'linear-gradient(135deg, #334155 0%, #475569 100%)' }"
-    />
-    <div class="relative flex flex-1 flex-col p-6">
-      <div class="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 opacity-0 transition-opacity group-hover:opacity-100" />
-      <h3 class="relative mb-2 font-semibold text-white">
+      class="project-card__media relative flex h-44 w-full shrink-0 items-center justify-center overflow-hidden sm:h-48"
+      :style="{ background: project.previewColor }"
+    >
+      <img
+        v-if="project.coverUrl && !coverError"
+        :src="project.coverUrl"
+        :alt="project.title"
+        class="max-h-full max-w-full object-contain p-2 transition duration-500 group-hover:scale-[1.02]"
+        loading="lazy"
+        @error="coverError = true"
+      />
+      <div
+        v-else
+        class="h-full w-full"
+        :style="{ background: project.previewColor }"
+      />
+      <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/40 to-transparent" />
+      <div class="absolute left-3 top-3">
+        <ProjectStageBadge :stage="project.stage" />
+      </div>
+    </div>
+
+    <div class="relative flex flex-1 flex-col p-5 sm:p-6">
+      <p class="mb-1 text-xs font-medium uppercase tracking-wide text-primary">
+        {{ project.tagline }}
+      </p>
+      <h3 class="mb-2 text-lg font-semibold leading-snug text-theme">
         {{ project.title }}
       </h3>
-      <p class="relative mb-4 flex-1 text-sm leading-relaxed text-slate-400">
+      <p class="relative mb-4 line-clamp-3 flex-1 text-sm leading-relaxed text-theme-secondary">
         {{ project.description }}
       </p>
-      <div class="relative flex flex-wrap gap-2">
-      <span
-        v-for="t in project.tech"
-        :key="t"
-        class="rounded-lg bg-slate-700/60 px-2 py-1 font-mono text-xs text-slate-300"
-      >
-        {{ t }}
-      </span>
-    </div>
-      <p class="relative mt-4 text-xs font-medium text-primary">
-        Нажмите для подробностей и ссылок →
+      <div class="relative flex flex-wrap gap-1.5">
+        <span
+          v-for="tech in project.tech.slice(0, 4)"
+          :key="tech"
+          class="bg-theme-tag text-theme-tag rounded-lg px-2 py-1 font-mono text-[11px] sm:text-xs"
+        >
+          {{ tech }}
+        </span>
+        <span
+          v-if="project.tech.length > 4"
+          class="rounded-lg px-2 py-1 text-[11px] text-theme-muted sm:text-xs"
+        >
+          +{{ project.tech.length - 4 }}
+        </span>
+      </div>
+      <p class="relative mt-4 text-xs font-medium text-primary opacity-80 transition group-hover:opacity-100">
+        {{ t('projectCard.hint') }}
       </p>
     </div>
   </div>
 </template>
+
+<style scoped>
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+</style>

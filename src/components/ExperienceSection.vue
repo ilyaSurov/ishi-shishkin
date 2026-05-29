@@ -1,20 +1,19 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import gsap from 'gsap'
-import { profile } from '../data/profile'
+import { useLocale } from '../composables/useLocale'
 
+const { profile, t } = useLocale()
 const timeline = ref(null)
-const cards = ref([])
 
 onMounted(() => {
   if (!timeline.value) return
   const items = timeline.value.querySelectorAll('.exp-card')
-  cards.value = items
   gsap.from(items, {
     opacity: 0,
     x: -40,
     duration: 0.6,
-    stagger: 0.2,
+    stagger: 0.15,
     delay: 0.2,
     ease: 'power2.out',
   })
@@ -22,43 +21,70 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="experience-section flex h-full w-full items-center justify-center px-4 py-8">
-    <div ref="timeline" class="relative max-w-2xl">
-      <h2 class="mb-10 text-center font-bold text-white">
-        Опыт
-      </h2>
-      <div class="relative">
-        <!-- Vertical line -->
-        <div
-          class="absolute left-6 top-0 bottom-0 w-px bg-gradient-to-b from-primary via-accent to-transparent sm:left-1/2 sm:-translate-x-px"
-          aria-hidden="true"
-        />
-        <div class="space-y-8">
+  <div class="experience-section flex h-full min-h-0 w-full items-stretch justify-center px-4 py-2">
+    <div class="flex min-h-0 w-full max-w-3xl flex-1 flex-col">
+      <header class="mb-4 shrink-0 text-center">
+        <h2 class="font-bold text-theme">
+          {{ t('sections.experience') }}
+        </h2>
+        <p class="mt-1 font-mono text-sm text-primary">
+          {{ profile.experienceTotal }}
+        </p>
+      </header>
+
+      <div
+        ref="timeline"
+        class="theme-scroll experience-scroll min-h-0 flex-1 overflow-y-auto overflow-x-hidden pr-1"
+      >
+        <div class="relative space-y-6 pb-2">
           <div
-            v-for="(exp, i) in profile.experience"
-            :key="exp.title"
-            class="exp-card relative flex items-start gap-6"
-            :class="i % 2 === 0 ? 'sm:flex-row' : 'sm:flex-row-reverse'"
+            class="absolute left-[11px] top-2 bottom-2 w-px bg-gradient-to-b from-primary via-accent to-transparent"
+            aria-hidden="true"
+          />
+
+          <article
+            v-for="exp in profile.experience"
+            :key="`${exp.company}-${exp.period}`"
+            class="exp-card relative pl-8"
           >
             <div
-              class="absolute left-6 h-3 w-3 shrink-0 rounded-full border-2 border-primary bg-slate-900 sm:left-1/2 sm:-translate-x-[5px]"
-              :class="i % 2 === 0 ? 'sm:translate-x-[-5px]' : 'sm:translate-x-[-5px]'"
+              class="timeline-dot absolute left-0 top-5 h-3 w-3 rounded-full border-2 border-primary"
+              aria-hidden="true"
             />
-            <div
-              class="glass-card ml-12 flex-1 rounded-xl p-5 sm:ml-0 sm:max-w-[calc(50%-2rem)]"
-              :class="i % 2 === 0 ? 'sm:mr-auto sm:pr-12' : 'sm:ml-auto sm:pl-12'"
-            >
-              <h3 class="font-semibold text-white">
-                {{ exp.title }}
-              </h3>
-              <p class="mt-1 font-mono text-sm text-primary">
-                {{ exp.duration }}
-              </p>
-              <p class="mt-2 text-sm text-slate-400">
-                {{ exp.team }}
-              </p>
+
+            <div class="glass-card rounded-xl p-4 sm:p-5">
+              <div class="flex flex-wrap items-start justify-between gap-2">
+                <div class="min-w-0 flex-1">
+                  <h3 class="font-semibold leading-snug text-theme">
+                    {{ exp.title }}
+                  </h3>
+                  <p class="mt-1 text-sm text-theme-body">
+                    {{ exp.company }}
+                    <span class="text-theme-muted">· {{ exp.location }}</span>
+                  </p>
+                </div>
+                <div class="shrink-0 text-right">
+                  <p class="font-mono text-xs text-primary">
+                    {{ exp.period }}
+                  </p>
+                  <p class="mt-0.5 text-xs text-theme-muted">
+                    {{ exp.duration }}
+                  </p>
+                </div>
+              </div>
+
+              <ul class="mt-4 space-y-2 border-t border-theme-subtle pt-4">
+                <li
+                  v-for="(item, idx) in exp.highlights"
+                  :key="idx"
+                  class="flex gap-2 text-sm leading-relaxed text-theme-secondary"
+                >
+                  <span class="mt-2 h-1 w-1 shrink-0 rounded-full bg-accent/80" />
+                  <span>{{ item }}</span>
+                </li>
+              </ul>
             </div>
-          </div>
+          </article>
         </div>
       </div>
     </div>

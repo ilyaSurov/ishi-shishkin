@@ -1,59 +1,40 @@
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { computed } from 'vue'
+import { useLocale } from '../composables/useLocale'
+import { usePanelNavigation } from '../composables/usePanelNavigation'
 
-const props = defineProps({ total: { type: Number, default: 5 } })
-const current = ref(0)
+defineProps({ total: { type: Number, default: 5 } })
 
-const labels = ['Главная', 'Проекты', 'Навыки', 'Опыт', 'Контакты']
+const { t } = useLocale()
+const { currentPanel, goToPanel } = usePanelNavigation()
 
-// Один экран прокрутки = одна панель: totalHeight = (total - 1) * innerHeight, позиция панели i = i * innerHeight
-const panelHeight = () => window.innerHeight
-const totalScrollHeight = () => (props.total - 1) * panelHeight()
-
-function goTo(index) {
-  const scrollTop = index * panelHeight()
-  current.value = index
-  window.scrollTo({ top: scrollTop, behavior: 'auto' })
-}
-
-function updateCurrent() {
-  const total = totalScrollHeight()
-  if (total <= 0) return
-  const progress = window.scrollY / total
-  const index = Math.round(progress * (props.total - 1))
-  current.value = Math.min(props.total - 1, Math.max(0, index))
-}
-
-onMounted(() => {
-  updateCurrent()
-  window.addEventListener('scroll', updateCurrent, { passive: true })
-})
-
-onUnmounted(() => {
-  window.removeEventListener('scroll', updateCurrent)
-})
+const labels = computed(() => t('nav.labels'))
 </script>
 
 <template>
   <nav
-    class="nav-bottom fixed bottom-0 left-0 right-0 z-50 flex justify-center p-3 pb-safe"
-    aria-label="Навигация по секциям"
+    class="nav-bottom fixed bottom-0 left-0 right-0 z-50 flex justify-center px-2 pb-safe sm:px-3"
+    :aria-label="t('nav.ariaLabel')"
   >
-    <div class="glass flex gap-1 rounded-2xl px-2 py-2 shadow-lg sm:gap-2 sm:px-3 sm:py-2">
-      <button
-        v-for="(label, i) in labels"
-        :key="i"
-        type="button"
-        class="nav-pill rounded-xl px-3 py-2 text-sm font-medium transition-all duration-200 sm:px-4"
-        :class="current === i
-          ? 'bg-primary/90 text-white shadow-md shadow-primary/30 scale-105'
-          : 'text-slate-400 hover:bg-white/10 hover:text-slate-200'"
-        :aria-current="current === i ? 'true' : undefined"
-        :aria-label="`Перейти: ${label}`"
-        @click="goTo(i)"
-      >
-        {{ label }}
-      </button>
+    <div class="glass nav-bar w-full max-w-full rounded-2xl shadow-lg sm:max-w-2xl lg:max-w-3xl">
+      <div class="nav-bar-scroll overflow-x-auto overscroll-x-contain px-1.5 py-1.5 sm:px-2 sm:py-2">
+        <div class="flex w-max min-w-full justify-center gap-0.5 sm:gap-1">
+          <button
+            v-for="(label, i) in labels"
+            :key="`${label}-${i}`"
+            type="button"
+            class="nav-pill shrink-0 rounded-lg px-2 py-1.5 text-[11px] font-medium leading-tight transition-all duration-200 sm:rounded-xl sm:px-3 sm:py-2 sm:text-sm md:px-4"
+            :class="currentPanel === i
+              ? 'bg-primary/90 text-white shadow-md shadow-primary/30'
+              : 'text-theme-secondary hover-theme hover:text-theme-emphasis'"
+            :aria-current="currentPanel === i ? 'true' : undefined"
+            :aria-label="`${t('nav.goTo')}: ${label}`"
+            @click="goToPanel(i)"
+          >
+            {{ label }}
+          </button>
+        </div>
+      </div>
     </div>
   </nav>
 </template>
@@ -63,7 +44,18 @@ onUnmounted(() => {
   cursor: pointer;
   white-space: nowrap;
 }
+
+.nav-bar-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.nav-bar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 .pb-safe {
-  padding-bottom: max(0.75rem, env(safe-area-inset-bottom));
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 </style>

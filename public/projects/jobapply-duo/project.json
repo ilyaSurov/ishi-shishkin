@@ -1,0 +1,11 @@
+{
+  "id": "jobapply-duo",
+  "github": "",
+  "live": "",
+  "stage": "pre-mvp",
+  "tech": ["Nuxt 4", "Vue 3", "Go", "chromedp", "TypeScript"],
+  "cover": "cover.svg",
+  "gallery": [],
+  "video": null,
+  "previewColor": "linear-gradient(135deg, #0f172a 0%, #334155 50%, #6366f1 100%)"
+}

@@ -3,10 +3,35 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#0f172a" />
-    <meta name="description" content="Илья Шишкин Петрович — Senior Fullstack Developer" />
-    <title>Илья Шишкин Петрович | Senior Fullstack Developer</title>
+    <script>
+      (function () {
+        var localeKey = 'portfolio-locale';
+        var themeKey = 'portfolio-theme';
+        var storedLocale = localStorage.getItem(localeKey);
+        var locale =
+          storedLocale === 'ru' || storedLocale === 'en'
+            ? storedLocale
+            : navigator.language && navigator.language.toLowerCase().indexOf('ru') === 0
+              ? 'ru'
+              : 'en';
+        document.documentElement.setAttribute('lang', locale);
+
+        var storedTheme = localStorage.getItem(themeKey);
+        var theme =
+          storedTheme === 'light' || storedTheme === 'dark'
+            ? storedTheme
+            : window.matchMedia('(prefers-color-scheme: light)').matches
+              ? 'light'
+              : 'dark';
+        document.documentElement.setAttribute('data-theme', theme);
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute('content', theme === 'light' ? '#f8fafc' : '#0f172a');
+      })();
+    </script>
+    <meta name="description" content="Ilya Petrovich Shishkin — Fullstack Developer" />
+    <title>Ilya Petrovich Shishkin | Fullstack Developer</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />

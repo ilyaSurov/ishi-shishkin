@@ -1,0 +1,11 @@
+{
+  "id": "ratnik-tactic",
+  "github": "https://github.com/ilyaSurov/e-shop-RatnikTactic",
+  "live": "",
+  "stage": "mvp",
+  "tech": ["Nuxt 4", "Vue 3", "Go", "Gin", "GORM", "PostgreSQL", "Docker", "Redis"],
+  "cover": "cover.svg",
+  "gallery": ["gallery/1.jpg", "gallery/2.jpg", "gallery/3.jpg", "gallery/4.jpg", "gallery/5.jpg", "gallery/6.jpg", "gallery/7.jpg", "gallery/8.jpg"],
+  "video": "demo.mp4",
+  "previewColor": "linear-gradient(135deg, #3d4f2f 0%, #5c6b4a 50%, #8b7355 100%)"
+}

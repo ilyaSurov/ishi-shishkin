@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="JobApplyDuo">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="50%" stop-color="#334155"/>
+      <stop offset="100%" stop-color="#6366f1"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <text x="400" y="205" text-anchor="middle" fill="#fff" font-family="system-ui,sans-serif" font-size="40" font-weight="700">JobApplyDuo</text>
+  <text x="400" y="255" text-anchor="middle" fill="#94a3b8" font-family="system-ui,sans-serif" font-size="18">HH.ru automation · chromedp · Nuxt</text>
+</svg>
